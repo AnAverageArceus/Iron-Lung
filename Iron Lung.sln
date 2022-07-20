@@ -1,7 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iron Lung", "Iron Lung.csproj", "{B70FDF99-E671-5D64-05EE-43FABC820286}"
+VisualStudioVersion = 15.0.28307.960
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iron Lung", "Iron Lung.csproj", "{EC177A78-6A93-32F2-8A6D-CEBB1FF2C314}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iron Lung.Editor", "Iron Lung.Editor.csproj", "{19E93D59-7200-BDD8-688A-124B5F6B8A3F}"
 EndProject
@@ -11,10 +13,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B70FDF99-E671-5D64-05EE-43FABC820286}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B70FDF99-E671-5D64-05EE-43FABC820286}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B70FDF99-E671-5D64-05EE-43FABC820286}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B70FDF99-E671-5D64-05EE-43FABC820286}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC177A78-6A93-32F2-8A6D-CEBB1FF2C314}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC177A78-6A93-32F2-8A6D-CEBB1FF2C314}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC177A78-6A93-32F2-8A6D-CEBB1FF2C314}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC177A78-6A93-32F2-8A6D-CEBB1FF2C314}.Release|Any CPU.Build.0 = Release|Any CPU
 		{19E93D59-7200-BDD8-688A-124B5F6B8A3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{19E93D59-7200-BDD8-688A-124B5F6B8A3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{19E93D59-7200-BDD8-688A-124B5F6B8A3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -22,5 +24,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {09EA84D5-8392-4C7D-B1A4-A1831A728D91}
 	EndGlobalSection
 EndGlobal

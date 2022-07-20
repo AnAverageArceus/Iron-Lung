@@ -110,15 +110,21 @@ public class ironLung : MonoBehaviour
             Audio.PlaySoundAtTransform("click", transform);
             if ((Array.IndexOf(Direction, Turning)) % 2 == 0)
             {
+                if (!RightTurnButtonHeld)
+                {
+                    CW[0].transform.localPosition += new Vector3(0.0f, 0.5f, 0.0f);
+                    CW[1].transform.localPosition += new Vector3(0.0f, 0.5f, 0.0f);
+                }
                 RightTurnButtonHeld = true;
-                CW[0].transform.localPosition += new Vector3(0.0f, 0.5f, 0.0f);
-                CW[1].transform.localPosition += new Vector3(0.0f, 0.5f, 0.0f);
             }
             else
             {
+                if (!LeftTurnButtonHeld)
+                {
+                    CCW[0].transform.localPosition += new Vector3(0.0f, 0.5f, 0.0f);
+                    CCW[1].transform.localPosition += new Vector3(0.0f, 0.5f, 0.0f);
+                }
                 LeftTurnButtonHeld = true;
-                CCW[0].transform.localPosition += new Vector3(0.0f, 0.5f, 0.0f);
-                CCW[1].transform.localPosition += new Vector3(0.0f, 0.5f, 0.0f);
             }
         }
     }
@@ -150,15 +156,21 @@ public class ironLung : MonoBehaviour
             Audio.PlaySoundAtTransform("click", transform);
             if ((Array.IndexOf(Movement, Moving)) % 2 == 0)
             {
+                if (!BackwardHeld)
+                {
+                    Down[0].transform.localPosition += new Vector3(0.0f, -0.5f, 0.0f);
+                    Down[1].transform.localPosition += new Vector3(0.0f, -0.5f, 0.0f);
+                }
                 BackwardHeld = true;
-                Down[0].transform.localPosition += new Vector3(0.0f, -0.5f, 0.0f);
-                Down[1].transform.localPosition += new Vector3(0.0f, -0.5f, 0.0f);
             }
             else
             {
+                if (!ForwardHeld)
+                {
+                    Up[0].transform.localPosition += new Vector3(0.0f, -0.5f, 0.0f);
+                    Up[1].transform.localPosition += new Vector3(0.0f, -0.5f, 0.0f);
+                }
                 ForwardHeld = true;
-                Up[0].transform.localPosition += new Vector3(0.0f, -0.5f, 0.0f);
-                Up[1].transform.localPosition += new Vector3(0.0f, -0.5f, 0.0f);
             }
         }
     }
@@ -249,19 +261,19 @@ public class ironLung : MonoBehaviour
             DirectionText.text = "000.00";
         if (Angle >= 0 && Angle <= 180)
         {
-            XPos = XPos + ((90 - (Math.Abs(Angle - 90f))) / 90f * SpeedCalc) / 600f;
+            XPos = XPos + ((90 - (Math.Abs(Angle - 90f))) / 90f * SpeedCalc) / 300f;
         }
         else
         {
-            XPos = XPos - ((90 - (Math.Abs(Angle - 270f))) / 90f * SpeedCalc) / 600f;
+            XPos = XPos - ((90 - (Math.Abs(Angle - 270f))) / 90f * SpeedCalc) / 300f;
         }
         if (Angle >= 90 && Angle <= 270)
         {
-            YPos = YPos - ((90 - (Math.Abs(Angle - 180f))) / 90f * SpeedCalc) / 600f;
+            YPos = YPos - ((90 - (Math.Abs(Angle - 180f))) / 90f * SpeedCalc) / 300f;
         }
         else
         {
-            YPos = YPos + (((Math.Abs(Angle - 180f)) - 90f) / 90f * SpeedCalc) / 600f;
+            YPos = YPos + (((Math.Abs(Angle - 180f)) - 90f) / 90f * SpeedCalc) / 300f;
         }
         Positioning[0].text = XPos.ToString("0.00");
         while (Positioning[0].text.Length < 6)
@@ -312,10 +324,23 @@ public class ironLung : MonoBehaviour
             {
                 Proximity[0].SetActive(true);
                 Audio.PlaySoundAtTransform("proximity", transform);
-                yield return new WaitForSeconds(0.5f - ((YPos % 10) / 20));
+                yield return new WaitForSeconds(0.5f - (((YPos % 10) + 10) / 40));
                 Proximity[0].SetActive(false);
-                yield return new WaitForSeconds(0.5f - ((YPos % 10) / 20));
+                yield return new WaitForSeconds(0.5f - (((YPos % 10) + 10) / 40));
             }
+            else if (YPos < 980)
+            {
+                if (MapInUse[97 - ((int)YPos / 10)].Substring(((int)XPos / 10), 1) == "1")
+                {
+                    Proximity[0].SetActive(true);
+                    Audio.PlaySoundAtTransform("proximity", transform);
+                    yield return new WaitForSeconds(0.5f - ((YPos % 10) / 40));
+                    Proximity[0].SetActive(false);
+                    yield return new WaitForSeconds(0.5f - ((YPos % 10) / 40));
+                }
+                else yield return new WaitForSeconds(0.05f);
+        }
+
             else yield return new WaitForSeconds(0.05f);
         }
         else yield return new WaitForSeconds(0.05f);
@@ -330,9 +355,21 @@ public class ironLung : MonoBehaviour
             {
                 Proximity[1].SetActive(true);
                 Audio.PlaySoundAtTransform("proximity", transform);
-                yield return new WaitForSeconds(0.5f - ((XPos % 10) / 20));
+                yield return new WaitForSeconds(0.5f - (((XPos % 10) + 10) / 40));
                 Proximity[1].SetActive(false);
-                yield return new WaitForSeconds(0.5f - ((XPos % 10) / 20));
+                yield return new WaitForSeconds(0.5f - (((XPos % 10) + 10) / 40));
+            }
+            else if (XPos < 980)
+            {
+                if (MapInUse[99 - ((int)YPos / 10)].Substring(((int)XPos / 10) + 2, 1) == "1")
+                {
+                    Proximity[1].SetActive(true);
+                    Audio.PlaySoundAtTransform("proximity", transform);
+                    yield return new WaitForSeconds(0.5f - ((XPos % 10) / 40));
+                    Proximity[1].SetActive(false);
+                    yield return new WaitForSeconds(0.5f - ((XPos % 10) / 40));
+                }
+                else yield return new WaitForSeconds(0.05f);
             }
             else yield return new WaitForSeconds(0.05f);
         }
@@ -348,9 +385,21 @@ public class ironLung : MonoBehaviour
             {
                 Proximity[2].SetActive(true);
                 Audio.PlaySoundAtTransform("proximity", transform);
-                yield return new WaitForSeconds((YPos % 10) / 20);
+                yield return new WaitForSeconds((YPos % 10) / 40);
                 Proximity[2].SetActive(false);
-                yield return new WaitForSeconds((YPos % 10) / 20);
+                yield return new WaitForSeconds((YPos % 10) / 40);
+            }
+            else if (YPos >= 20)
+            {
+                if (MapInUse[101 - ((int)YPos / 10)].Substring(((int)XPos / 10), 1) == "1")
+                {
+                    Proximity[2].SetActive(true);
+                    Audio.PlaySoundAtTransform("proximity", transform);
+                    yield return new WaitForSeconds(((YPos % 10) + 10) / 40);
+                    Proximity[2].SetActive(false);
+                    yield return new WaitForSeconds(((YPos % 10) + 10) / 40);
+                }
+                else yield return new WaitForSeconds(0.05f);
             }
             else yield return new WaitForSeconds(0.05f);
         }
@@ -366,9 +415,21 @@ public class ironLung : MonoBehaviour
             {
                 Proximity[3].SetActive(true);
                 Audio.PlaySoundAtTransform("proximity", transform);
-                yield return new WaitForSeconds((XPos % 10) / 20);
+                yield return new WaitForSeconds((XPos % 10) / 40);
                 Proximity[3].SetActive(false);
-                yield return new WaitForSeconds((XPos % 10) / 20);
+                yield return new WaitForSeconds((XPos % 10) / 40);
+            }
+            else if (XPos >= 20)
+            {
+                if (MapInUse[99 - ((int)YPos / 10)].Substring(((int)XPos / 10) - 2, 1) == "1")
+                {
+                    Proximity[3].SetActive(true);
+                    Audio.PlaySoundAtTransform("proximity", transform);
+                    yield return new WaitForSeconds(((XPos % 10) + 10) / 40);
+                    Proximity[3].SetActive(false);
+                    yield return new WaitForSeconds(((XPos % 10) + 10) / 40);
+                }
+                else yield return new WaitForSeconds(0.05f);
             }
             else yield return new WaitForSeconds(0.05f);
         }
@@ -378,6 +439,7 @@ public class ironLung : MonoBehaviour
 
     IEnumerator Crash()
     {
+        Module.HandleStrike();
         ModuleSolved = true;
         Blackout.SetActive(true);
         Audio.PlaySoundAtTransform("crash", transform);
