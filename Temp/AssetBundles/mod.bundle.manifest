@@ -1,0 +1,75 @@
+ManifestFileVersion: 0
+CRC: 581892544
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 02a672ab3063af2fe4c0311a83153e5e
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: b8be4d121a66140514ba219e7fca3e4a
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 65
+  Script: {instanceID: 0}
+- Class: 82
+  Script: {instanceID: 0}
+- Class: 83
+  Script: {instanceID: 0}
+- Class: 102
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 327c4429304adf84fa55c01a9938d5ba, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 96a2fc4ae3e690a498a0d85a2b5e0b99, type: 3}
+- Class: 114
+  Script: {fileID: -1675560866, guid: 45b809be76fd7a3468b6f517bced6f28, type: 3}
+- Class: 114
+  Script: {fileID: 2144496390, guid: 45b809be76fd7a3468b6f517bced6f28, type: 3}
+- Class: 114
+  Script: {fileID: -119419473, guid: 45b809be76fd7a3468b6f517bced6f28, type: 3}
+- Class: 114
+  Script: {fileID: -706292897, guid: 45b809be76fd7a3468b6f517bced6f28, type: 3}
+- Class: 114
+  Script: {fileID: -1005838349, guid: 45b809be76fd7a3468b6f517bced6f28, type: 3}
+- Class: 114
+  Script: {fileID: -548183353, guid: 45b809be76fd7a3468b6f517bced6f28, type: 3}
+- Class: 114
+  Script: {fileID: 1702003387, guid: 45b809be76fd7a3468b6f517bced6f28, type: 3}
+- Class: 114
+  Script: {fileID: -381104716, guid: 45b809be76fd7a3468b6f517bced6f28, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 128
+  Script: {instanceID: 0}
+- Class: 135
+  Script: {instanceID: 0}
+Assets:
+- Assets/Sound Effects/proximity.ogg
+- Assets/Sound Effects/oxygen.ogg
+- Assets/SEG7.mat
+- Assets/DSEG7MODERN-REGULAR.TTF
+- Assets/Sound Effects/crash.ogg
+- Assets/Sound Effects/click.ogg
+- Assets/Sound Effects/bump.ogg
+- Assets/BEATSTER.mat
+- Assets/BEATSTERDEMO.OTF
+- Assets/Sound Effects/submit.ogg
+- Assets/Missions/The_Worst_Mission_Ever.asset
+- Assets/The Iron Lung.prefab
+Dependencies: []
