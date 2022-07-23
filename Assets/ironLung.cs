@@ -215,6 +215,7 @@ public class ironLung : MonoBehaviour
             BlackoutText.text = "SOLVED";
             Debug.LogFormat("[Iron Lung #{0}] This is within range of your goal, and your training has been completed. Congratulations.", moduleId);
             Module.HandlePass();
+            StopAllCoroutines();
         }
         else
         {
