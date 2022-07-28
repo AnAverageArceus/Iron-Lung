@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using KModkit;
+using System.Text.RegularExpressions;
 
 public class ironLung : MonoBehaviour
 {
@@ -34,8 +35,10 @@ public class ironLung : MonoBehaviour
     int Map;
     string[] MapInUse;
 
+    bool[] ActiveProxSensors = new bool[4];
     bool BackwardHeld = false;
     bool ForwardHeld = false;
+    bool SolveIncoming = false;
     int SpeedCalc = 0;
 
     bool LeftTurnButtonHeld = false;
@@ -203,6 +206,8 @@ public class ironLung : MonoBehaviour
             Debug.LogFormat("[Iron Lung #{0}] You navigated to ({1},{2}), turned to an angle of {3}, and took a photo there.", moduleId, XPos.ToString("0.00"), YPos.ToString("0.00"), Angle.ToString("0.00"));
             Audio.PlaySoundAtTransform("submit", transform);
             Blackout.SetActive(true);
+            if (Math.Abs(GoalPosition[0] - XPos) <= 2 && Math.Abs(GoalPosition[1] - YPos) <= 2 && Math.Abs(GoalPosition[2] - Angle) <= 10)
+                SolveIncoming = true;
             StartCoroutine(HoldOn());
         }
     }
@@ -323,6 +328,7 @@ public class ironLung : MonoBehaviour
         {
             if (MapInUse[98 - ((int)YPos / 10)].Substring(((int)XPos / 10), 1) == "1")
             {
+                ActiveProxSensors[0] = true;
                 Proximity[0].SetActive(true);
                 Audio.PlaySoundAtTransform("proximity", transform);
                 yield return new WaitForSeconds(0.5f - (((YPos % 10) + 10) / 40));
@@ -333,16 +339,17 @@ public class ironLung : MonoBehaviour
             {
                 if (MapInUse[97 - ((int)YPos / 10)].Substring(((int)XPos / 10), 1) == "1")
                 {
+                    ActiveProxSensors[0] = true;
                     Proximity[0].SetActive(true);
                     Audio.PlaySoundAtTransform("proximity", transform);
                     yield return new WaitForSeconds(0.5f - ((YPos % 10) / 40));
                     Proximity[0].SetActive(false);
                     yield return new WaitForSeconds(0.5f - ((YPos % 10) / 40));
                 }
-                else yield return new WaitForSeconds(0.05f);
+                else { ActiveProxSensors[0] = false; yield return new WaitForSeconds(0.05f); }
         }
 
-            else yield return new WaitForSeconds(0.05f);
+            else { ActiveProxSensors[0] = false; yield return new WaitForSeconds(0.05f); }
         }
         else yield return new WaitForSeconds(0.05f);
         StartCoroutine(ProximityCheckNorth());
@@ -354,6 +361,7 @@ public class ironLung : MonoBehaviour
         {
             if (MapInUse[99 - ((int)YPos / 10)].Substring(((int)XPos / 10) + 1, 1) == "1")
             {
+                ActiveProxSensors[1] = true;
                 Proximity[1].SetActive(true);
                 Audio.PlaySoundAtTransform("proximity", transform);
                 yield return new WaitForSeconds(0.5f - (((XPos % 10) + 10) / 40));
@@ -364,15 +372,16 @@ public class ironLung : MonoBehaviour
             {
                 if (MapInUse[99 - ((int)YPos / 10)].Substring(((int)XPos / 10) + 2, 1) == "1")
                 {
+                    ActiveProxSensors[1] = true;
                     Proximity[1].SetActive(true);
                     Audio.PlaySoundAtTransform("proximity", transform);
                     yield return new WaitForSeconds(0.5f - ((XPos % 10) / 40));
                     Proximity[1].SetActive(false);
                     yield return new WaitForSeconds(0.5f - ((XPos % 10) / 40));
                 }
-                else yield return new WaitForSeconds(0.05f);
+                else { ActiveProxSensors[1] = false; yield return new WaitForSeconds(0.05f); }
             }
-            else yield return new WaitForSeconds(0.05f);
+            else { ActiveProxSensors[1] = false; yield return new WaitForSeconds(0.05f); }
         }
         else yield return new WaitForSeconds(0.05f);
         StartCoroutine(ProximityCheckEast());
@@ -384,6 +393,7 @@ public class ironLung : MonoBehaviour
         {
             if (MapInUse[100 - ((int)YPos / 10)].Substring(((int)XPos / 10), 1) == "1")
             {
+                ActiveProxSensors[2] = true;
                 Proximity[2].SetActive(true);
                 Audio.PlaySoundAtTransform("proximity", transform);
                 yield return new WaitForSeconds((YPos % 10) / 40);
@@ -394,15 +404,16 @@ public class ironLung : MonoBehaviour
             {
                 if (MapInUse[101 - ((int)YPos / 10)].Substring(((int)XPos / 10), 1) == "1")
                 {
+                    ActiveProxSensors[2] = true;
                     Proximity[2].SetActive(true);
                     Audio.PlaySoundAtTransform("proximity", transform);
                     yield return new WaitForSeconds(((YPos % 10) + 10) / 40);
                     Proximity[2].SetActive(false);
                     yield return new WaitForSeconds(((YPos % 10) + 10) / 40);
                 }
-                else yield return new WaitForSeconds(0.05f);
+                else { ActiveProxSensors[2] = false; yield return new WaitForSeconds(0.05f); }
             }
-            else yield return new WaitForSeconds(0.05f);
+            else { ActiveProxSensors[2] = false; yield return new WaitForSeconds(0.05f); }
         }
         else yield return new WaitForSeconds(0.05f);
         StartCoroutine(ProximityCheckSouth());
@@ -414,6 +425,7 @@ public class ironLung : MonoBehaviour
         {
             if (MapInUse[99 - ((int)YPos / 10)].Substring(((int)XPos / 10) - 1, 1) == "1")
             {
+                ActiveProxSensors[3] = true;
                 Proximity[3].SetActive(true);
                 Audio.PlaySoundAtTransform("proximity", transform);
                 yield return new WaitForSeconds((XPos % 10) / 40);
@@ -424,15 +436,16 @@ public class ironLung : MonoBehaviour
             {
                 if (MapInUse[99 - ((int)YPos / 10)].Substring(((int)XPos / 10) - 2, 1) == "1")
                 {
+                    ActiveProxSensors[3] = true;
                     Proximity[3].SetActive(true);
                     Audio.PlaySoundAtTransform("proximity", transform);
                     yield return new WaitForSeconds(((XPos % 10) + 10) / 40);
                     Proximity[3].SetActive(false);
                     yield return new WaitForSeconds(((XPos % 10) + 10) / 40);
                 }
-                else yield return new WaitForSeconds(0.05f);
+                else { ActiveProxSensors[3] = false; yield return new WaitForSeconds(0.05f); }
             }
-            else yield return new WaitForSeconds(0.05f);
+            else { ActiveProxSensors[3] = false; yield return new WaitForSeconds(0.05f); }
         }
         else yield return new WaitForSeconds(0.05f);
         StartCoroutine(ProximityCheckWest());
@@ -500,5 +513,215 @@ public class ironLung : MonoBehaviour
         }
         if (OxygenCounter != 3)
             StartCoroutine(Oxygen());
+    }
+
+    //twitch plays
+    bool TwitchShouldCancelCommand;
+    #pragma warning disable 414
+    private readonly string TwitchHelpMessage = @"!{0} angle <###> [Sets the angle of the submarine] | !{0} forward/backward <x/y> <###> [Moves the submarine forward or backward until the x or y of your current position is '###' or a new proximity sensor goes off] | !{0} submit [Submits your current position]";
+    #pragma warning restore 414
+    IEnumerator ProcessTwitchCommand(string command)
+    {
+        if (Regex.IsMatch(command, @"^\s*submit\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant))
+        {
+            if (ModuleSolved)
+            {
+                yield return "sendtochaterror Submit cannot be pressed while the module is submitting!";
+                yield break;
+            }
+            yield return null;
+            Photo.OnInteract();
+            if (SolveIncoming)
+                yield return "solve";
+            else
+                yield return "strike";
+            yield break;
+        }
+        string[] parameters = command.Split(' ');
+        if (Regex.IsMatch(parameters[0], @"^\s*angle\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant))
+        {
+            if (parameters.Length == 1)
+                yield return "sendtochaterror Please specify an angle for the submarine!";
+            else if (parameters.Length > 2)
+                yield return "sendtochaterror Too many parameters!";
+            else
+            {
+                int temp = -1;
+                if (!int.TryParse(parameters[1], out temp))
+                {
+                    yield return "sendtochaterror!f The specified angle '" + parameters[1] + "' is invalid!";
+                    yield break;
+                }
+                if (temp < 0 || temp > 359)
+                {
+                    yield return "sendtochaterror The specified angle '" + parameters[1] + "' is out of range 0-359!";
+                    yield break;
+                }
+                if (ModuleSolved)
+                {
+                    yield return "sendtochaterror The angle cannot be set while the module is submitting!";
+                    yield break;
+                }
+                yield return null;
+                calc:
+                int ct1 = 0, ct2 = 0;
+                int start = (int)Angle;
+                while (start != temp)
+                {
+                    ct1++;
+                    start++;
+                    if (start > 359)
+                        start = 0;
+                }
+                start = (int)Angle;
+                while (start != temp)
+                {
+                    ct2++;
+                    start--;
+                    if (start < 0)
+                        start = 359;
+                }
+                if (ct1 < ct2)
+                {
+                    Direction[0].OnInteract();
+                    while ((int)Angle != temp)
+                    {
+                        yield return null;
+                        if (TwitchShouldCancelCommand)
+                            break;
+                    }
+                    Direction[0].OnInteractEnded();
+                }
+                else
+                {
+                    Direction[1].OnInteract();
+                    while ((int)Angle != temp)
+                    {
+                        yield return null;
+                        if (TwitchShouldCancelCommand)
+                            break;
+                    }
+                    Direction[1].OnInteractEnded();
+                }
+                if (!TwitchShouldCancelCommand)
+                {
+                    while (RotationCalc != 0f)
+                    {
+                        yield return null;
+                        if (TwitchShouldCancelCommand)
+                            break;
+                    }
+                    if (!TwitchShouldCancelCommand)
+                    {
+                        if ((int)Angle != temp)
+                            goto calc;
+                    }
+                    else
+                        yield return "cancelled";
+                }
+                else
+                    yield return "cancelled";
+            }
+            yield break;
+        }
+        if (Regex.IsMatch(parameters[0], @"^\s*forward|backward\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant))
+        {
+            if (parameters.Length == 1)
+                yield return "sendtochaterror Please specify a value and whether x or y should be that value!";
+            else if (parameters.Length == 2 && (parameters[1].EqualsIgnoreCase("x") || parameters[1].EqualsIgnoreCase("y")))
+                yield return "sendtochaterror Please specify a value that " + parameters[1] + " should be!";
+            else if (parameters.Length == 2)
+                yield return "sendtochaterror!f Expected x or y but received '" + parameters[1] + "'!";
+            else if (parameters.Length > 3)
+                yield return "sendtochaterror Too many parameters!";
+            else
+            {
+                if (!parameters[1].EqualsIgnoreCase("x") && !parameters[1].EqualsIgnoreCase("y"))
+                {
+                    yield return "sendtochaterror!f Expected x or y but received '" + parameters[1] + "'!";
+                    yield break;
+                }
+                int temp = -1;
+                if (!int.TryParse(parameters[2], out temp))
+                {
+                    yield return "sendtochaterror!f The specified value '" + parameters[2] + "' is invalid!";
+                    yield break;
+                }
+                if (temp < 0 || temp > 999)
+                {
+                    yield return "sendtochaterror The specified value '" + parameters[2] + "' is out of range 0-999!";
+                    yield break;
+                }
+                if (ModuleSolved)
+                {
+                    yield return "sendtochaterror The submarine cannot be moved forward or backward while the module is submitting!";
+                    yield break;
+                }
+                yield return null;
+                bool[] activeProx = new bool[4];
+                for (int i = 0; i < 4; i++)
+                    activeProx[i] = ActiveProxSensors[i];
+                bool goForward = parameters[0].EqualsIgnoreCase("forward");
+                calc:
+                bool leave = false;
+                Movement[goForward ? 1 : 0].OnInteract();
+                if (parameters[1].EqualsIgnoreCase("x"))
+                {
+                    while ((int)XPos != temp)
+                    {
+                        yield return null;
+                        for (int i = 0; i < 4; i++)
+                        {
+                            if (!activeProx[i] && ActiveProxSensors[i])
+                            {
+                                leave = true;
+                                break;
+                            }
+                        }
+                        if (TwitchShouldCancelCommand || leave)
+                            break;
+                    }
+                }
+                else
+                {
+                    while ((int)YPos != temp)
+                    {
+                        yield return null;
+                        for (int i = 0; i < 4; i++)
+                        {
+                            if (activeProx[i] != ActiveProxSensors[i])
+                            {
+                                leave = true;
+                                break;
+                            }
+                        }
+                        if (TwitchShouldCancelCommand || leave)
+                            break;
+                    }
+                }
+                Movement[goForward ? 1 : 0].OnInteractEnded();
+                if (!TwitchShouldCancelCommand && !leave)
+                {
+                    while (SpeedCalc != 0f)
+                    {
+                        yield return null;
+                        if (TwitchShouldCancelCommand)
+                            break;
+                    }
+                    if (!TwitchShouldCancelCommand)
+                    {
+                        if ((parameters[1].EqualsIgnoreCase("x") && temp != (int)XPos) || (parameters[1].EqualsIgnoreCase("y") && temp != (int)YPos))
+                        {
+                            goForward = !goForward;
+                            goto calc;
+                        }
+                    }
+                    else
+                        yield return "cancelled";
+                }
+                if (TwitchShouldCancelCommand)
+                    yield return "cancelled";
+            }
+        }
     }
 }
