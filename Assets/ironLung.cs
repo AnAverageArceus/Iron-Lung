@@ -526,7 +526,7 @@ public class ironLung : MonoBehaviour
         {
             if (ModuleSolved)
             {
-                yield return "sendtochaterror Submit cannot be pressed while the module is submitting!";
+                yield return "sendtochaterror Submit cannot be pressed while the module is animating!";
                 yield break;
             }
             yield return null;
@@ -559,7 +559,7 @@ public class ironLung : MonoBehaviour
                 }
                 if (ModuleSolved)
                 {
-                    yield return "sendtochaterror The angle cannot be set while the module is submitting!";
+                    yield return "sendtochaterror The angle cannot be set while the module is animating!";
                     yield break;
                 }
                 yield return null;
@@ -654,7 +654,7 @@ public class ironLung : MonoBehaviour
                 }
                 if (ModuleSolved)
                 {
-                    yield return "sendtochaterror The submarine cannot be moved forward or backward while the module is submitting!";
+                    yield return "sendtochaterror The submarine cannot be moved forward or backward while the module is animating!";
                     yield break;
                 }
                 yield return null;
@@ -672,7 +672,7 @@ public class ironLung : MonoBehaviour
                         yield return null;
                         for (int i = 0; i < 4; i++)
                         {
-                            if (!activeProx[i] && ActiveProxSensors[i])
+                            if (activeProx[i] == false && ActiveProxSensors[i] == true)
                             {
                                 leave = true;
                                 break;
@@ -689,7 +689,7 @@ public class ironLung : MonoBehaviour
                         yield return null;
                         for (int i = 0; i < 4; i++)
                         {
-                            if (activeProx[i] != ActiveProxSensors[i])
+                            if (activeProx[i] == false && ActiveProxSensors[i] == true)
                             {
                                 leave = true;
                                 break;
