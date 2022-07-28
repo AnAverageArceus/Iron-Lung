@@ -3945,7 +3945,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ModuleType: ironLung
   ModuleDisplayName: Iron Lung
-  RequiresTimerVisibility: 1
+  RequiresTimerVisibility: 0
 --- !u!114 &114332381152468090
 MonoBehaviour:
   m_ObjectHideFlags: 1
