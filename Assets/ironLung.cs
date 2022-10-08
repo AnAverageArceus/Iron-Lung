@@ -321,13 +321,14 @@ public class ironLung : MonoBehaviour
         else Goal[2].text = "A_" + GoalPosition[2].ToString();
         yield return new WaitForSecondsRealtime(0.4f);
     }
-
+    //THIS IS NOT THE BEST WAY TO ADD ALL THESE PROXIMITY SENSOR CHECKS BUT I TRIED MY BEST, SORRY
     IEnumerator ProximityCheckNorth()
     {
         if (YPos < 990)
         {
             if (MapInUse[98 - ((int)YPos / 10)].Substring(((int)XPos / 10), 1) == "1")
             {
+                if (!ActiveProxSensors[0]) Debug.LogFormat("[Iron Lung #{0}] Northern proximity sensor triggered! Position at time of activation is ({1},{2}).", moduleId, XPos.ToString("0.00"), YPos.ToString("0.00"));
                 ActiveProxSensors[0] = true;
                 Proximity[0].SetActive(true);
                 Audio.PlaySoundAtTransform("proximity", transform);
@@ -339,6 +340,7 @@ public class ironLung : MonoBehaviour
             {
                 if (MapInUse[97 - ((int)YPos / 10)].Substring(((int)XPos / 10), 1) == "1")
                 {
+                    if (!ActiveProxSensors[0]) Debug.LogFormat("[Iron Lung #{0}] Northern proximity sensor triggered! Position at time of activation is ({1},{2}).", moduleId, XPos.ToString("0.00"), YPos.ToString("0.00"));
                     ActiveProxSensors[0] = true;
                     Proximity[0].SetActive(true);
                     Audio.PlaySoundAtTransform("proximity", transform);
@@ -361,6 +363,7 @@ public class ironLung : MonoBehaviour
         {
             if (MapInUse[99 - ((int)YPos / 10)].Substring(((int)XPos / 10) + 1, 1) == "1")
             {
+                if (!ActiveProxSensors[1]) Debug.LogFormat("[Iron Lung #{0}] Eastern proximity sensor triggered! Position at time of activation is ({1},{2}).", moduleId, XPos.ToString("0.00"), YPos.ToString("0.00"));
                 ActiveProxSensors[1] = true;
                 Proximity[1].SetActive(true);
                 Audio.PlaySoundAtTransform("proximity", transform);
@@ -372,6 +375,7 @@ public class ironLung : MonoBehaviour
             {
                 if (MapInUse[99 - ((int)YPos / 10)].Substring(((int)XPos / 10) + 2, 1) == "1")
                 {
+                    if (!ActiveProxSensors[1]) Debug.LogFormat("[Iron Lung #{0}] Eastern proximity sensor triggered! Position at time of activation is ({1},{2}).", moduleId, XPos.ToString("0.00"), YPos.ToString("0.00"));
                     ActiveProxSensors[1] = true;
                     Proximity[1].SetActive(true);
                     Audio.PlaySoundAtTransform("proximity", transform);
@@ -393,6 +397,7 @@ public class ironLung : MonoBehaviour
         {
             if (MapInUse[100 - ((int)YPos / 10)].Substring(((int)XPos / 10), 1) == "1")
             {
+                if (!ActiveProxSensors[2]) Debug.LogFormat("[Iron Lung #{0}] Southern proximity sensor triggered! Position at time of activation is ({1},{2}).", moduleId, XPos.ToString("0.00"), YPos.ToString("0.00"));
                 ActiveProxSensors[2] = true;
                 Proximity[2].SetActive(true);
                 Audio.PlaySoundAtTransform("proximity", transform);
@@ -404,6 +409,7 @@ public class ironLung : MonoBehaviour
             {
                 if (MapInUse[101 - ((int)YPos / 10)].Substring(((int)XPos / 10), 1) == "1")
                 {
+                    if (!ActiveProxSensors[2]) Debug.LogFormat("[Iron Lung #{0}] Southern proximity sensor triggered! Position at time of activation is ({1},{2}).", moduleId, XPos.ToString("0.00"), YPos.ToString("0.00"));
                     ActiveProxSensors[2] = true;
                     Proximity[2].SetActive(true);
                     Audio.PlaySoundAtTransform("proximity", transform);
@@ -425,6 +431,7 @@ public class ironLung : MonoBehaviour
         {
             if (MapInUse[99 - ((int)YPos / 10)].Substring(((int)XPos / 10) - 1, 1) == "1")
             {
+                if (!ActiveProxSensors[3]) Debug.LogFormat("[Iron Lung #{0}] Western proximity sensor triggered! Position at time of activation is ({1},{2}).", moduleId, XPos.ToString("0.00"), YPos.ToString("0.00"));
                 ActiveProxSensors[3] = true;
                 Proximity[3].SetActive(true);
                 Audio.PlaySoundAtTransform("proximity", transform);
@@ -436,6 +443,7 @@ public class ironLung : MonoBehaviour
             {
                 if (MapInUse[99 - ((int)YPos / 10)].Substring(((int)XPos / 10) - 2, 1) == "1")
                 {
+                    if (!ActiveProxSensors[3]) Debug.LogFormat("[Iron Lung #{0}] Western proximity sensor triggered! Position at time of activation is ({1},{2}).", moduleId, XPos.ToString("0.00"), YPos.ToString("0.00"));
                     ActiveProxSensors[3] = true;
                     Proximity[3].SetActive(true);
                     Audio.PlaySoundAtTransform("proximity", transform);
@@ -583,6 +591,7 @@ public class ironLung : MonoBehaviour
                 }
                 if (ct1 < ct2)
                 {
+                    if (PreventingButtonsCommittingFloatation) Direction[0].OnInteractEnded();
                     Direction[0].OnInteract();
                     while ((int)Angle != temp)
                     {
@@ -594,6 +603,7 @@ public class ironLung : MonoBehaviour
                 }
                 else
                 {
+                    if (PreventingButtonsCommittingFloatation) Direction[1].OnInteractEnded();
                     Direction[1].OnInteract();
                     while ((int)Angle != temp)
                     {
@@ -662,8 +672,9 @@ public class ironLung : MonoBehaviour
                 for (int i = 0; i < 4; i++)
                     activeProx[i] = ActiveProxSensors[i];
                 bool goForward = parameters[0].EqualsIgnoreCase("forward");
-                calc:
+            calc:
                 bool leave = false;
+                if (PreventingButtonsCommittingFloatation) Movement[goForward ? 1 : 0].OnInteractEnded();
                 Movement[goForward ? 1 : 0].OnInteract();
                 if (parameters[1].EqualsIgnoreCase("x"))
                 {
