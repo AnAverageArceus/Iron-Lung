@@ -1,4 +1,4 @@
-﻿public class ironData
+﻿public class ironData //This holds all four maps in text form so the code can read it
 {
     public static string[] map1 =
     {

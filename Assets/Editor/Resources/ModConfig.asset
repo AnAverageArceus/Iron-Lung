@@ -19,7 +19,7 @@ MonoBehaviour:
 
     Inspired by David Szymanski''s game of the same name, of course
 
-    Fair warning: This module takes quite a while to solve.'
+    Fair warning: This module takes quite a while to solve sometimes.'
   version: 1.0
   outputFolder: D:\Steam\steamapps\common\Keep Talking and Nobody Explodes\mods
   previewImage: {fileID: 2800000, guid: 9ae84a1d97a50954cbb7dbfb25b1d7af, type: 3}
